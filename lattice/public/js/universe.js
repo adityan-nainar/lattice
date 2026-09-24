@@ -299,6 +299,34 @@ export function mountUniverse(container, { nodes, edges, groups, selectedId, onS
   );
 
   // ---- drawing
+  // Only the on-screen part of a line gets stroked (Liang–Barsky clipping). Zoomed in, links run
+  // thousands of pixels off-screen, and stroking them whole made close-up frames several times slower.
+  function line(a, b) {
+    const m = 8;
+    const dx = b.x - a.x;
+    const dy = b.y - a.y;
+    let t0 = 0, t1 = 1;
+    for (const [p, q] of [[-dx, a.x + m], [dx, W + m - a.x], [-dy, a.y + m], [dy, H + m - a.y]]) {
+      if (p === 0) {
+        if (q < 0) return;
+        continue;
+      }
+      const t = q / p;
+      if (p < 0) {
+        if (t > t1) return;
+        if (t > t0) t0 = t;
+      } else {
+        if (t < t0) return;
+        if (t < t1) t1 = t;
+      }
+    }
+    ctx.lineDashOffset = t0 * Math.hypot(dx, dy); // dashes stay put on the line, not on the screen edge
+    ctx.beginPath();
+    ctx.moveTo(a.x + t0 * dx, a.y + t0 * dy);
+    ctx.lineTo(a.x + t1 * dx, a.y + t1 * dy);
+    ctx.stroke();
+  }
+
   function draw(now) {
     rot = { cy: Math.cos(cam.yaw), sy: Math.sin(cam.yaw), cp: Math.cos(cam.pitch), sp: Math.sin(cam.pitch) };
     const c = center();
@@ -337,7 +365,7 @@ export function mountUniverse(container, { nodes, edges, groups, selectedId, onS
 
     // links
     ctx.globalCompositeOperation = 'source-over';
-    ctx.lineCap = 'round';
+    ctx.lineCap = 'butt'; // round caps are invisible on thin lines, and long round-capped strokes draw slowly
     for (const l of links) {
       const a = pos.get(l.s.id);
       const b = pos.get(l.t.id);
@@ -350,10 +378,7 @@ export function mountUniverse(container, { nodes, edges, groups, selectedId, onS
       ctx.strokeStyle = tension ? `rgba(240,113,122,${Math.min(1, alphaL * 2)})` : on ? `rgba(200,210,255,${alphaL})` : `rgba(160,175,230,${alphaL})`;
       ctx.lineWidth = on ? 1.6 : 1;
       ctx.setLineDash(tension ? [5, 4] : []);
-      ctx.beginPath();
-      ctx.moveTo(a.x, a.y);
-      ctx.lineTo(b.x, b.y);
-      ctx.stroke();
+      line(a, b);
     }
     ctx.setLineDash([]);
 
@@ -367,13 +392,11 @@ export function mountUniverse(container, { nodes, edges, groups, selectedId, onS
         const done = routeDone?.has(route[i - 1]) && routeDone?.has(route[i]);
         ctx.strokeStyle = `rgba(240,190,90,${(done ? 0.95 : 0.5) * (lit ? 0.5 : 1)})`;
         ctx.setLineDash(done ? [] : [6, 5]);
-        ctx.beginPath();
-        ctx.moveTo(a.x, a.y);
-        ctx.lineTo(b.x, b.y);
-        ctx.stroke();
+        line(a, b);
       }
       ctx.setLineDash([]);
     }
+    ctx.lineDashOffset = 0;
 
     // stars: plain dots in their area's colour, far to near, with a dark edge so overlapping dots stay
     // distinct. Questions are hollow rings. Farther dots are smaller and a little dimmer, never faint.

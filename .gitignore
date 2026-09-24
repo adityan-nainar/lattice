@@ -1,0 +1,15 @@
+# Only the three libraries are tracked; everything else in this folder stays local.
+/*
+!/.gitignore
+!/README.md
+!/lattice/
+!/finance/
+!/tech/
+
+node_modules/
+
+# Personal libraries: notes, questions, pictures, visit logs and backups.
+**/data/
+
+# Topics built from private work documents (loaded by tech/seed.js only when present).
+tech/private/

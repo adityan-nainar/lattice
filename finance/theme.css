@@ -1,0 +1,21 @@
+/* Ledger's look on top of the Lattice styles: a green accent instead of violet. */
+:root {
+  --accent: #4fc79a;
+  --accent-2: #80dcb9;
+  --accent-ink: #0a1a13;
+  --accent-soft: rgba(79, 199, 154, 0.13);
+}
+:root[data-theme='light'] {
+  --accent: #1d8457;
+  --accent-2: #166a45;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(29, 132, 87, 0.1);
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) {
+    --accent: #1d8457;
+    --accent-2: #166a45;
+    --accent-ink: #ffffff;
+    --accent-soft: rgba(29, 132, 87, 0.1);
+  }
+}

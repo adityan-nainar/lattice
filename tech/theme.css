@@ -1,0 +1,21 @@
+/* Stack's look on top of the Lattice styles: an amber accent instead of violet. */
+:root {
+  --accent: #f0a449;
+  --accent-2: #f6c27f;
+  --accent-ink: #1f1405;
+  --accent-soft: rgba(240, 164, 73, 0.13);
+}
+:root[data-theme='light'] {
+  --accent: #b0620f;
+  --accent-2: #8c4d0a;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(176, 98, 15, 0.1);
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) {
+    --accent: #b0620f;
+    --accent-2: #8c4d0a;
+    --accent-ink: #ffffff;
+    --accent-soft: rgba(176, 98, 15, 0.1);
+  }
+}

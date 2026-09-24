@@ -1,0 +1,17 @@
+{
+  "name": "ledger",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Money, markets and the maths underneath, for wandering rather than studying. Runs on the Lattice engine.",
+  "type": "module",
+  "scripts": {
+    "start": "node --import ./env.js ../lattice/server.js",
+    "open": "node --import ./env.js ../lattice/server.js --open",
+    "lan": "node --import ./env.js ../lattice/server.js --lan",
+    "check": "node --import ./env.js ../lattice/scripts/check.js",
+    "merge": "node --import ./env.js ../lattice/scripts/merge.js"
+  },
+  "engines": {
+    "node": ">=20.6"
+  }
+}

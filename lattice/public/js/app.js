@@ -2912,8 +2912,16 @@ function viewTimeline({ params }) {
   );
   const undated = store.entries.filter((e) => e.year == null && e.type !== 'note').length;
 
-  // Everything before 1800 is thin, so it shares one band; after that, decade by decade.
-  const bandOf = (year) => (year < 1800 ? 'Before 1800' : `${Math.floor(year / 10) * 10}s`);
+  // Older times are thinner, so they go by century; from 1800, decade by decade.
+  const ordinal = (n) => `${n}${n % 100 >= 11 && n % 100 <= 13 ? 'th' : { 1: 'st', 2: 'nd', 3: 'rd' }[n % 10] || 'th'}`;
+  const bandOf = (year) =>
+    year < 0
+      ? `${ordinal(Math.ceil(-year / 100))} century BCE`
+      : year < 1000
+        ? `${ordinal(Math.floor(year / 100) + 1)} century`
+        : year < 1800
+          ? `${Math.floor(year / 100) * 100}s`
+          : `${Math.floor(year / 10) * 10}s`;
   const bands = new Map();
   for (const e of dated) {
     const key = bandOf(e.year);

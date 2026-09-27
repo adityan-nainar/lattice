@@ -22,6 +22,14 @@ export function shapePath(type, r) {
       const s = r * 1.2;
       return `M0,${-s}L${s},0L0,${s}L${-s},0Z`;
     }
+    case 'person': {
+      const pts = [];
+      for (let i = 0; i < 5; i++) {
+        const a = ((Math.PI * 2) / 5) * i - Math.PI / 2;
+        pts.push(`${(Math.cos(a) * r * 1.15).toFixed(2)},${(Math.sin(a) * r * 1.15).toFixed(2)}`);
+      }
+      return `M${pts.join('L')}Z`;
+    }
     case 'note': {
       const s = r * 1.15;
       return `M0,${-s}L${s * 0.95},${s * 0.7}L${-s * 0.95},${s * 0.7}Z`;

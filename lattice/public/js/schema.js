@@ -5,6 +5,7 @@ export const TYPES = {
   theory: { label: 'Theory', plural: 'Theories', hint: 'A framework, conjecture or explanation' },
   equation: { label: 'Equation', plural: 'Equations', hint: 'A formula, with its symbols explained' },
   example: { label: 'Example', plural: 'Examples', hint: 'A worked case with real numbers' },
+  person: { label: 'Person', plural: 'People', hint: 'Someone whose ideas changed the map' },
   question: { label: 'Question', plural: 'Questions', hint: 'Something you want to find out' },
   note: { label: 'Note', plural: 'Notes', hint: 'Anything else worth keeping' },
 };

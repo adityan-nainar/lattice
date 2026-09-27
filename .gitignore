@@ -1,10 +1,11 @@
-# Only the three libraries are tracked; everything else in this folder stays local.
+# Only the engine and its libraries are tracked; everything else in this folder stays local.
 /*
 !/.gitignore
 !/README.md
 !/lattice/
 !/finance/
 !/tech/
+!/philosophy/
 
 node_modules/
 

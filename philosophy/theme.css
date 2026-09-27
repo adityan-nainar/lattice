@@ -1,0 +1,21 @@
+/* Agora's look on top of the Lattice styles: a rose accent instead of violet. */
+:root {
+  --accent: #f07d95;
+  --accent-2: #f6a8b8;
+  --accent-ink: #22080e;
+  --accent-soft: rgba(240, 125, 149, 0.13);
+}
+:root[data-theme='light'] {
+  --accent: #b53a55;
+  --accent-2: #922c43;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(181, 58, 85, 0.1);
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) {
+    --accent: #b53a55;
+    --accent-2: #922c43;
+    --accent-ink: #ffffff;
+    --accent-soft: rgba(181, 58, 85, 0.1);
+  }
+}
